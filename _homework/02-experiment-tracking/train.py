@@ -1,6 +1,7 @@
 import argparse
 import os
 import pickle
+import mlflow
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
@@ -32,5 +33,6 @@ if __name__ == '__main__':
         help="the location where the processed NYC taxi trip data was saved."
     )
     args = parser.parse_args()
-
-    run(args.data_path)
+    mlflow.autolog()
+    with mlflow.start_run():
+        run(args.data_path)
