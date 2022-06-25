@@ -2,11 +2,6 @@ data/
 .ipynb_checkpoints
 .bin
 *.db
-<<<<<<< HEAD
-venv
-*/venv/*
-.vscode
-=======
 
 *.parquet
 *.html
@@ -15,4 +10,3 @@ venv
 .venv
 venv
 .idea
->>>>>>> DataTalksClub-main
