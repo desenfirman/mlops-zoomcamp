@@ -17,8 +17,8 @@ services:
     environment:
       MONGO_DATABASE: "prediction_service"
       MONGO_ADDRESS: "mongodb://mongo.:27017/"
-      MODEL_VERSION: "1"
-      MODEL_FILE: "lin_reg.bin"
+      MODEL_VERSION: "2"
+      MODEL_FILE: "lin_reg_V2.bin"
     
     ports:
       - 9696:9696
