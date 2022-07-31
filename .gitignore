@@ -10,3 +10,11 @@ data/
 .venv
 venv
 .idea
+**/artifacts/
+**/models/
+
+__pycache__/
+**.env
+**.terraform/
+**.terraform.lock*
+**terraform.tfstate*
