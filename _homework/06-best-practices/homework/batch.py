@@ -28,13 +28,36 @@ def read_data(filename, categorical):
         'client_kwargs': {
             'endpoint_url': S3_ENDPOINT_URL
         }
-    }
+    }   
     if S3_ENDPOINT_URL:
-        df = pd.read_parquet(filename, storage_options=options)
+        df = pd.read_parquet(filename, engine='pyarrow', storage_options=options)
     else:
         df = pd.read_parquet(filename)
     df = prepare_data(df, categorical) 
     return df
+
+
+def save_data(df_input, output_file):
+    options = {
+        'client_kwargs': {
+            'endpoint_url': S3_ENDPOINT_URL
+        }
+    }
+    if S3_ENDPOINT_URL:
+        df_input.to_parquet(
+            output_file,
+            engine='pyarrow',
+            compression=None,
+            index=False,
+            storage_options=options
+        )
+    else:
+        df_input.to_parquet(
+            output_file,
+            engine='pyarrow',
+            compression=None,
+            index=False
+        )
 
 
 def main(year, month, input_file, output_file):
@@ -50,13 +73,14 @@ def main(year, month, input_file, output_file):
 
 
     print('predicted mean duration:', y_pred.mean())
+    print('predicted sum duration:', y_pred.sum())
 
 
     df_result = pd.DataFrame()
     df_result['ride_id'] = df['ride_id']
     df_result['predicted_duration'] = y_pred
 
-    df_result.to_parquet(output_file, engine='pyarrow', index=False)
+    save_data(df_result, output_file)
 
 def get_input_path(year, month):
     default_input_pattern = 'https://raw.githubusercontent.com/alexeygrigorev/datasets/master/nyc-tlc/fhv/fhv_tripdata_{year:04d}-{month:02d}.parquet'
@@ -74,5 +98,8 @@ if __name__ == '__main__':
     year = int(sys.argv[1])
     month = int(sys.argv[2])
     input_file = get_input_path(year, month)
-    output_file = get_output_path(year, month) 
+    output_file = get_output_path(year, month)
+    print("input_file:", input_file)
+    print("output_file:", output_file)
+    print("endpoint_url:", S3_ENDPOINT_URL) 
     main(year, month, input_file, output_file)

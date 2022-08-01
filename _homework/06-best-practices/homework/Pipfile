@@ -8,9 +8,12 @@ scikit-learn = "==1.0.2"
 pandas = "*"
 pyarrow = "*"
 s3fs = "*"
+fsspec = "*"
 
 [dev-packages]
 pytest = "*"
+s3fs = "*"
+fsspec = "*"
 
 [requires]
 python_version = "3.9"
